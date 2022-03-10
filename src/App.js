@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css"
+// import useLongPress from "./useLongPress"
+import { useRef } from "react"
+import useLongPress from "./useLongPress"
 
 function App() {
+  const longPressRef = useRef(false)
+  const timerRef = useRef(null)
+  console.log("rendered!")
+
+  const fireEvent = () => {
+    alert("hi, I'm normal behavior")
+  }
+
+  const onTouchStartFunc = () => {
+    longPressRef.current = true
+    timerRef.current = setTimeout(fireEvent, 700)
+  }
+
+  const onTouchEndFunc = () => {
+    longPressRef.current = false
+    clearTimeout(timerRef.current)
+  }
+
+  const touchEvent = useLongPress(() => {
+    console.log("hihi, this is from hook")
+  }, 200)
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="https://google.com"
+          style={{ color: "white" }}
+          onContextMenu={() => {
+            alert("uhhh, contextMenu function called")
+          }}
+          onTouchStart={onTouchStartFunc}
+          onTouchMove={onTouchEndFunc}
+          onTouchEnd={onTouchEndFunc}
         >
-          Learn React
+          Long press me should show something in console
+        </a>
+        <a href="https://www.facebook.com" {...touchEvent}>
+          this is hook one
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
