@@ -1,7 +1,5 @@
 import "./App.css"
-// import useLongPress from "./useLongPress"
 import { useRef } from "react"
-import useLongPress from "./useLongPress"
 
 function App() {
   const longPressRef = useRef(false)
@@ -32,25 +30,23 @@ function App() {
     onContextMenuEvent = null
   }
 
-  const touchEvent = useLongPress(() => {
-    console.log("hihi, this is from hook")
-  }, 200)
+  const onLeftClick = (e) => {
+    e.preventDefault()
+    alert("left button is pressed")
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <a
-          href="https://google.com"
+        <button
           style={{ color: "white" }}
+          onClick={onLeftClick}
           onContextMenu={onContextMenuEvent}
           onTouchStart={onTouchStartFunc}
           onTouchMove={onTouchEndFunc}
           onTouchEnd={onTouchEndFunc}
         >
-          Long press me should show something in console
-        </a>
-        <a href="https://www.facebook.com" {...touchEvent}>
-          this is hook one
-        </a>
+          Long press me
+        </button>
       </header>
     </div>
   )
