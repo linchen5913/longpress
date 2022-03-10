@@ -22,6 +22,20 @@ function App() {
     clearTimeout(timerRef.current)
   }
 
+  let onContextMenuEvent = () => {
+    alert("oh shit this is bad")
+  }
+  function isTouchDevice() {
+    return (
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
+    )
+  }
+  if (isTouchDevice()) {
+    onContextMenuEvent = null
+  }
+
   const touchEvent = useLongPress(() => {
     console.log("hihi, this is from hook")
   }, 200)
@@ -31,9 +45,7 @@ function App() {
         <a
           href="https://google.com"
           style={{ color: "white" }}
-          onContextMenu={() => {
-            alert("uhhh, contextMenu function called")
-          }}
+          onContextMenu={onContextMenuEvent}
           onTouchStart={onTouchStartFunc}
           onTouchMove={onTouchEndFunc}
           onTouchEnd={onTouchEndFunc}
